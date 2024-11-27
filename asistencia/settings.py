@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-g%5@=2d1khidfbym2))5mmk*8gj2(2)=s5gc&0b)p4*1n&n$ps
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['profeqr-mb69.onrender.com']
+ALLOWED_HOSTS = ['profeqr-mb69.onrender.com','127.0.0.1']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'clases',
 ]
 
 MIDDLEWARE = [
@@ -75,14 +76,11 @@ WSGI_APPLICATION = 'asistencia.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'railway',  
-        'USER': 'root',     
-        'PASSWORD': 'WmgQujiQIGelsQOMkuOZapqtOIiiPzPQ', 
-        'HOST': 'mysql.railway.internal',  
-        'PORT': '3306',     
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation

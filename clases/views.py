@@ -1,19 +1,33 @@
 from django.shortcuts import render
 import qrcode
 from io import BytesIO
-from django.http import HttpResponse
 from .models import Asistencia
+from .models import Usuario
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 
-def index(request):
-    return render(request, 'index.html') 
 
 
+def home(request):
+    if request.method == 'POST':
+        nombre_usuario = request.POST['nombre_usuario']
+        contrasena = request.POST['contrasena']
+
+        
+        usuario = authenticate(request, username=nombre_usuario, password=contrasena)
+
+        if usuario:
+            login(request, usuario)  
+            return redirect('inicio')  
+        else:
+            return render(request, 'home.html', {'error': 'Credenciales incorrectas'})
+
+    return render(request, 'home.html')
 
 
-def generar_qr(request, clase_id):
-    asistencia = Asistencia.objects.get(id=clase_id)
-    qr = qrcode.make(asistencia.clase + " " + str(asistencia.fecha))
-    buffer = BytesIO()
-    qr.save(buffer)
-    buffer.seek(0)
-    return HttpResponse(buffer, content_type="image/png")
+@login_required
+def generar_qr(request):
+    
+    return HttpResponse("Generando QR para la clase...")
