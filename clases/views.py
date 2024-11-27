@@ -26,6 +26,9 @@ def home(request):
 
     return render(request, 'home.html')
 
+def inicio(request):
+    return render(request, 'inicio.html')
+
 
 @login_required
 def generar_qr(request):
