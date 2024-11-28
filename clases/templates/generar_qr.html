@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de QR</title>
+    <title>Generar QR</title>
 </head>
 <body>
-    <h1>Generar QR para Asistencia</h1>
-    <form action="{% url 'generar_qr' %}" method="get">
-        <label for="clase">Clase:</label>
-        <input type="text" id="clase" name="clase">
-        <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" name="fecha">
+    <h1>Generar Código QR</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="texto">Texto para el QR:</label>
+        <input type="text" id="texto" name="texto" placeholder="Escribe algo" required>
         <button type="submit">Generar QR</button>
     </form>
 </body>

@@ -29,6 +29,10 @@
 </head>
 <body>
     <h1>Hola Profesor {{ nombre }}</h1>
-    <button onclick="alert('Generando QR...')">Generar QR Clase</button>
+    <form action="{% url 'generar_qr' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="texto" value="Clase del día {{ ahora|date:'d/m/Y H:i' }}">
+        <button type="submit">Generar QR Clase</button>
+    </form>
 </body>
 </html>

@@ -1,8 +1,6 @@
 from django.shortcuts import render
 import qrcode
 from io import BytesIO
-from .models import Asistencia
-from .models import Usuario
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -32,5 +30,24 @@ def inicio(request):
 
 @login_required
 def generar_qr(request):
-    
-    return HttpResponse("Generando QR para la clase...")
+    if request.method == 'POST':
+        # Texto o información para el QR (puede venir de un formulario o ser fijo)
+        texto_qr = request.POST.get('texto', 'Clase de prueba')
+
+        # Generar el QR
+        qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+        qr.add_data(texto_qr)
+        qr.make(fit=True)
+
+        # Crear la imagen del QR
+        img = qr.make_image(fill_color="black", back_color="white")
+
+        # Guardar la imagen en un buffer de memoria
+        buffer = BytesIO()
+        img.save(buffer, format="PNG")
+        buffer.seek(0)
+
+        # Devolver la imagen como respuesta HTTP
+        return HttpResponse(buffer, content_type="image/png")
+
+    return render(request, 'generar_qr.html')
